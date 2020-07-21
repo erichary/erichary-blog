@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="60 seconds">
+    <!-- 彩色日志依赖的渲染类 -->
+    <conversionRule conversionWord="clr"
+                    converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+    <conversionRule conversionWord="wex"
+                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
+    <conversionRule conversionWord="wEx"
+                    converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter" />
+    <!-- 彩色日志格式 -->
+    <property name="CONSOLE_LOG_PATTERN"
+              value="${CONSOLE_LOG_PATTERN:-%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}" />
+    <!-- 控制台输出 -->
+    <appender name="consoleOut"
+              class="ch.qos.logback.core.ConsoleAppender">
+        <encoder
+                class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 文件输出Info日志 -->
+    <appender name="fileOutInfo"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>logs/blog/info/blog.log</File>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 保存历史记录到这个文件夹一日起为后缀 -->
+            <FileNamePattern>logs/blog/info/blog.%d{yyyy-MM-dd}.%i.log.zip
+            </FileNamePattern>
+            <!-- 保留30天的历史日志 -->
+            <maxHistory>30</maxHistory>
+            <!-- 日志切割大小 -->
+            <maxFileSize>200MB</maxFileSize>
+        </rollingPolicy>
+        <!-- 允许追加日志 -->
+        <append>true</append>
+        <encoder>
+            <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+            <!-- 设置字符集 -->
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 设置日志打印级别 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 文件输出Error日志 -->
+    <appender name="fileOutError"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>logs/blog/error/blog.log</File>
+        <rollingPolicy
+                class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 保存历史记录到这个文件夹一日起为后缀 -->
+            <FileNamePattern>logs/blog/error/blog.%d{yyyy-MM-dd}.%i.log.zip
+            </FileNamePattern>
+            <!-- 保留30天的历史日志 -->
+            <maxHistory>30</maxHistory>
+            <!-- 日志切割大小 -->
+            <maxFileSize>200MB</maxFileSize>
+        </rollingPolicy>
+        <!-- 允许追加日志 -->
+        <append>true</append>
+        <encoder>
+            <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+            <!-- 设置字符集 -->
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- 设置日志打印级别 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 日志输出级别 -->
+    <root level="INFO">
+        <appender-ref ref="consoleOut" />
+        <appender-ref ref="fileOutInfo" />
+        <appender-ref ref="fileOutError" />
+    </root>
+
+    <logger name="net.sf.ehcache" level="INFO" />
+    <logger name="druid.sql" level="INFO" />
+
+    <!-- MyBatis log configure -->
+    <logger name="com.apache.ibatis" level="INFO" />
+    <logger name="org.mybatis.spring" level="DEBUG" />
+    <logger name="java.sql.Connection" level="DEBUG" />
+    <logger name="java.sql.Statement" level="DEBUG" />
+    <logger name="java.sql.PreparedStatement" level="DEBUG" />
+
+    <!-- 减少部分debug日志 -->
+    <logger name="druid.sql" level="INFO" />
+    <logger name="org.mybatis.spring" level="INFO" />
+    <logger name="org.springframework" level="INFO" />
+    <logger name="org.springframework.context" level="WARN" />
+    <logger name="org.springframework.beans" level="WARN" />
+    <logger name="com.baomidou.mybatisplus" level="INFO" />
+    <logger name="org.apache.ibatis.io" level="INFO" />
+    <logger name="org.apache.velocity" level="INFO" />
+    <logger name="org.thymeleaf" level="INFO" />
+    <logger name="org.hibernate.validator" level="INFO" />
+    <!-- 业务日志 -->
+    <Logger name="com.erichary.blog" level="DEBUG" />
+    <Logger name="com.erichary.blog.dao" level="DEBUG" />
+</configuration>

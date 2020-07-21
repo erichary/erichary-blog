@@ -1,0 +1,52 @@
+# 服务器配置
+server:
+  port: 8081
+  undertow:
+    # 设置IO线程数, 它主要执行非阻塞的任务,它们会负责多个连接, 默认设置每个CPU核心一个线程
+    io-threads: 4
+    # 阻塞任务线程池, 当执行类似servlet请求阻塞操作, undertow会从这个线程池中取得线程,它的值设置取决于系统的负载
+    worker-threads: 20
+    # 以下的配置会影响buffer,这些buffer会用于服务器连接的IO操作,有点类似netty的池化内存管理
+    buffer-size: 1024
+    # 是否分配的直接内存
+    direct-buffers: true
+
+# beetl
+beetl:
+  enabled: true
+  suffix: btl
+  templatesPath: templates
+beetl-beetlsql:
+  dev: true
+
+# spring 配置
+spring:
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+  servlet:
+    multipart:
+      max-file-size: 256MB
+      max-request-size: 1024MB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  # 数据源配置
+  datasource:
+    url: jdbc:mysql://localhost:3306/mysql?useSSL=false&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&tinyInt1isBit=false&serverTimezone=GMT%2B8
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# 配置日志地址
+logging:
+  config: classpath:logback.xml
+
+# mybatis 配置
+mybatis:
+  mapper-locations: classpath:com/erichary/blog/dao/*.xml
+  type-aliases-package: com.erichary.blog.pojo.entity.**
+  configuration:
+    map-underscore-to-camel-case: true
