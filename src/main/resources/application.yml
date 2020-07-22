@@ -50,3 +50,9 @@ mybatis:
   type-aliases-package: com.erichary.blog.pojo.entity.**
   configuration:
     map-underscore-to-camel-case: true
+
+# 私有项目配置
+me-config:
+  swagger:
+    enable: true
+    basePackage: com.erichary.blog.controller
